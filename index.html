@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Order Bakmi Jagoan</title>
+  <meta name="description" content="Pesan Bakmie Ayam Spesial — Pre-Order mudah, cepat, dan praktis!" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-content">
+        <div class="brand">
+          <span class="brand-icon">🍜</span>
+          <div>
+            <h1>Order Bakmi Jagoan</h1>
+            <p class="tagline">Pre-Order Bakmi Jagoan Spesial</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="steps-indicator">
+        <div class="step-dot active" data-step="1">
+          <span class="step-num">1</span>
+          <span class="step-label">Data</span>
+        </div>
+        <div class="step-dot" data-step="2">
+          <span class="step-num">2</span>
+          <span class="step-label">Menu</span>
+        </div>
+        <div class="step-dot" data-step="3">
+          <span class="step-num">3</span>
+          <span class="step-label">Bayar</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PO Closed Screen -->
+    <section class="closed-screen" id="closedScreen" style="display: none;">
+      <div class="closed-content">
+        <div class="closed-icon">🔒</div>
+        <h2>Pre-Order Ditutup</h2>
+        <p class="closed-message" id="closedMessage">Pre-Order untuk saat ini sudah ditutup. Terima kasih!</p>
+        <button type="button" class="btn btn-primary" onclick="checkFormStatus()">
+          🔄 Cek Lagi
+        </button>
+      </div>
+    </section>
+
+    <!-- Form Container -->
+    <main class="form-container">
+      <!-- Step 1: Info Pemesan -->
+      <section class="form-step active" id="step1">
+        <div class="step-header">
+          <h2>📋 Detail Pemesanan</h2>
+          <p>Lengkapi informasi kamu di bawah ini</p>
+        </div>
+
+        <!-- Kata-kata Pembuka / Notice -->
+        <div class="notice-box">
+          <p class="notice-title">SUPAYA GAK SALAH PESEN, BACA DULU...!!!</p>
+          <ul class="notice-list">
+            <li>Buat yang belum Follow, monggo di Follow <a href="https://instagram.com/bakmijagoan_jkt" target="_blank"
+                rel="noopener">@bakmijagoan_jkt</a></li>
+            <li>untuk harga <strong>Extra Topping</strong> sudah di lampirkan dibagian pilihan Topping</li>
+            <li><strong>Jenis Bakmi</strong> adalah Bakmi <u>Kering</u> (tanpa kuah)</li>
+            <li>Bakmi akan diantar ke lantai masing-masing (drop di Security)</li>
+          </ul>
+          <p class="notice-footer">Jika ada yang ingin ditanyakan mengenai pemesanan, silahkan hubungi WA admin
+            <strong>081233330188 (Erlina)</strong>
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label for="nama">Nama Sesuai Teams <span class="required">*</span></label>
+          <input type="text" id="nama" placeholder="Masukkan nama kamu" required />
+        </div>
+
+        <div class="form-group">
+          <label for="lantai">Lantai <span class="required">*</span></label>
+          <input type="number" id="lantai" placeholder="Contoh: 3" min="1" required />
+        </div>
+
+        <div class="form-group">
+          <label for="unitKerja">Unit Kerja <span class="required">*</span></label>
+          <input type="text" id="unitKerja" placeholder="Masukkan unit kerja kamu" required />
+        </div>
+
+        <div class="btn-group">
+          <div></div>
+          <button type="button" class="btn btn-primary" onclick="nextStep(2)">
+            Pilih Menu <span class="btn-arrow">→</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Step 2: Pilih Menu -->
+      <section class="form-step" id="step2">
+        <div class="step-header">
+          <h2>🍜 Pilih Menu</h2>
+          <p>Pilih bakmie favoritmu!</p>
+        </div>
+
+        <!-- Bakmie Selection -->
+        <div class="menu-section">
+          <h3 class="section-title">Bakmie</h3>
+          <div class="menu-cards">
+            <label class="menu-card" for="bakmie1">
+              <input type="radio" name="bakmie" id="bakmie1" value="Mie Ayam Original" data-price="20000" required />
+              <div class="card-inner">
+                <div class="card-image">
+                  <img src="/images/mie-ayam-original.png" alt="Mie Ayam Original" />
+                </div>
+                <div class="card-info">
+                  <span class="card-name">Mie Ayam Original</span>
+                  <span class="card-price">Rp 20.000</span>
+                </div>
+                <div class="card-check">✓</div>
+              </div>
+            </label>
+            <label class="menu-card" for="bakmie2">
+              <input type="radio" name="bakmie" id="bakmie2" value="Mie Ayam Chili Oil" data-price="23000" required />
+              <div class="card-inner">
+                <div class="card-image">
+                  <img src="/images/mie-ayam-chili-oil.png" alt="Mie Ayam Chili Oil" />
+                </div>
+                <div class="card-info">
+                  <span class="card-name">Mie Ayam Chili Oil</span>
+                  <span class="card-price">Rp 23.000</span>
+                </div>
+                <div class="card-check">✓</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Rasa Selection -->
+        <div class="menu-section">
+          <h3 class="section-title">Pilih Rasa</h3>
+          <div class="option-list">
+            <label class="option-item" for="rasa1">
+              <input type="radio" name="rasa" id="rasa1" value="Asin" required />
+              <div class="option-content">
+                <span class="option-icon">🧂</span>
+                <span class="option-name">Asin</span>
+              </div>
+              <div class="option-check"></div>
+            </label>
+            <label class="option-item" for="rasa2">
+              <input type="radio" name="rasa" id="rasa2" value="Yamin (Manis)" required />
+              <div class="option-content">
+                <span class="option-icon">🍯</span>
+                <span class="option-name">Yamin (Manis)</span>
+              </div>
+              <div class="option-check"></div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Level Pedas -->
+        <div class="menu-section">
+          <h3 class="section-title">Level Pedas 🌶️</h3>
+          <div class="option-list">
+            <label class="option-item" for="level0">
+              <input type="radio" name="level" id="level0" value="Level 0" data-price="0" required />
+              <div class="option-content">
+                <span class="option-icon">😊</span>
+                <span class="option-name">Level 0</span>
+                <span class="option-desc">Tidak pedas</span>
+              </div>
+              <div class="option-check"></div>
+            </label>
+            <label class="option-item" for="level1">
+              <input type="radio" name="level" id="level1" value="Level 1" data-price="0" />
+              <div class="option-content">
+                <span class="option-icon">🌶️</span>
+                <span class="option-name">Level 1</span>
+                <span class="option-desc">Sedikit pedas</span>
+              </div>
+              <div class="option-check"></div>
+            </label>
+            <label class="option-item" for="level2">
+              <input type="radio" name="level" id="level2" value="Level 2" data-price="0" />
+              <div class="option-content">
+                <span class="option-icon">🌶️🌶️</span>
+                <span class="option-name">Level 2</span>
+                <span class="option-desc">Pedas sedang</span>
+              </div>
+              <div class="option-check"></div>
+            </label>
+            <label class="option-item" for="level3">
+              <input type="radio" name="level" id="level3" value="Level 3" data-price="3000" />
+              <div class="option-content">
+                <span class="option-icon">🌶️🌶️🌶️</span>
+                <span class="option-name">Level 3</span>
+                <span class="option-desc">Pedas nampol</span>
+              </div>
+              <span class="option-extra">+Rp 3.000</span>
+              <div class="option-check"></div>
+            </label>
+            <label class="option-item" for="level4">
+              <input type="radio" name="level" id="level4" value="Level 4" data-price="3000" />
+              <div class="option-content">
+                <span class="option-icon">🔥🔥</span>
+                <span class="option-name">Level 4</span>
+                <span class="option-desc">Extreme!</span>
+              </div>
+              <span class="option-extra">+Rp 3.000</span>
+              <div class="option-check"></div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Topping -->
+        <div class="menu-section">
+          <h3 class="section-title">Additional Topping</h3>
+          <div class="option-list">
+            <label class="option-item checkbox" for="topping1">
+              <input type="checkbox" name="topping" id="topping1" value="Ayam Charsiu" data-price="5000" />
+              <div class="option-content">
+                <span class="option-icon">🍗</span>
+                <span class="option-name">Ayam Charsiu</span>
+              </div>
+              <span class="option-extra">+Rp 5.000</span>
+              <div class="option-check checkbox-check"></div>
+            </label>
+            <label class="option-item checkbox" for="topping2">
+              <input type="checkbox" name="topping" id="topping2" value="Bakso Sapi (2pcs)" data-price="3000" />
+              <div class="option-content">
+                <span class="option-icon">🥩</span>
+                <span class="option-name">Bakso Sapi (2pcs)</span>
+              </div>
+              <span class="option-extra">+Rp 3.000</span>
+              <div class="option-check checkbox-check"></div>
+            </label>
+            <label class="option-item checkbox" for="topping3">
+              <input type="checkbox" name="topping" id="topping3" value="Extra Kripik Pangsit" data-price="3000" />
+              <div class="option-content">
+                <span class="option-icon">🥟</span>
+                <span class="option-name">Extra Kripik Pangsit</span>
+              </div>
+              <span class="option-extra">+Rp 3.000</span>
+              <div class="option-check checkbox-check"></div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Floating Total -->
+        <div class="floating-total" id="floatingTotal">
+          <div class="total-info">
+            <span class="total-label">Total</span>
+            <span class="total-amount" id="totalAmount">Rp 0</span>
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn btn-secondary" onclick="prevStep(1)">
+            <span class="btn-arrow">←</span> Kembali
+          </button>
+          <button type="button" class="btn btn-primary" onclick="nextStep(3)">
+            Bayar <span class="btn-arrow">→</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Step 3: Pembayaran -->
+      <section class="form-step" id="step3">
+        <div class="step-header">
+          <h2>💳 Pembayaran</h2>
+          <p>Transfer dan konfirmasi pembayaran</p>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="order-summary" id="orderSummary">
+          <h3 class="summary-title">📝 Ringkasan Pesanan</h3>
+          <div id="summaryContent">
+            <!-- Filled by JS -->
+          </div>
+          <div class="summary-total">
+            <span>Total Pembayaran</span>
+            <span class="summary-total-amount" id="summaryTotalAmount">Rp 0</span>
+          </div>
+        </div>
+
+        <!-- Payment Info -->
+        <div class="payment-info">
+          <h3 class="payment-title">Transfer ke Rekening BCA</h3>
+          <div class="bank-card">
+            <div class="bank-logo">
+              <span class="bank-name">BCA</span>
+            </div>
+            <div class="account-number" id="accountNumber">0845175948</div>
+            <div class="account-name">a.n. Erlina Soegiarto</div>
+            <button type="button" class="btn-copy" id="btnCopy" onclick="copyRekening()">
+              <span class="copy-icon">📋</span>
+              <span class="copy-text">Salin No. Rekening</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Payment Confirmation -->
+        <div class="payment-confirm">
+          <label class="confirm-checkbox" for="confirmPaid">
+            <input type="checkbox" id="confirmPaid" onchange="toggleSubmit()" />
+            <div class="confirm-box">
+              <div class="confirm-check">✓</div>
+            </div>
+            <span class="confirm-text">Saya sudah melakukan pembayaran</span>
+          </label>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn btn-secondary" onclick="prevStep(2)">
+            <span class="btn-arrow">←</span> Kembali
+          </button>
+          <button type="button" class="btn btn-success" id="btnSubmit" onclick="submitOrder()" disabled>
+            ✅ Kirim Pesanan
+          </button>
+        </div>
+      </section>
+
+      <!-- Success Screen -->
+      <section class="form-step" id="stepSuccess">
+        <div class="success-screen">
+          <div class="success-animation">
+            <div class="success-circle">
+              <span class="success-icon">✅</span>
+            </div>
+          </div>
+          <h2>Pesanan Berhasil!</h2>
+          <p>Terima kasih sudah memesan. Pesanan kamu sedang diproses.</p>
+          <div class="success-details" id="successDetails">
+            <!-- Filled by JS -->
+          </div>
+          <button type="button" class="btn btn-primary" onclick="resetForm()">
+            🍜 Pesan Lagi
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>Made with ❤️ for Bakmie Lovers</p>
+    </footer>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
