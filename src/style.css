@@ -87,8 +87,10 @@ body {
 }
 
 .brand-icon {
-  font-size: 32px;
-  filter: drop-shadow(0 0 8px rgba(232, 148, 76, 0.4));
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  object-fit: contain;
 }
 
 .brand h1 {
