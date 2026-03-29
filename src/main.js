@@ -5,7 +5,7 @@ let currentStep = 1;
 const totalSteps = 3;
 
 // Google Apps Script URL — replace this after deploying your Apps Script
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaZJ04YnCidWAbw-ct_oy0zxTO4Z7BmcQfnd3xjcINlIBiyfDLGPYfCnCwRFGscppQQw/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJYB8QrQOoZev1-nKAqPTA3Lrz3M5WIkImraNzE4VUlvODfYiBmZtLCh-iDLoc0QHHkQ/exec';
 
 // ===== Initialize =====
 document.addEventListener('DOMContentLoaded', () => {
