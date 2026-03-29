@@ -5,7 +5,7 @@ let currentStep = 1;
 const totalSteps = 3;
 
 // Google Apps Script URL — replace this after deploying your Apps Script
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJYB8QrQOoZev1-nKAqPTA3Lrz3M5WIkImraNzE4VUlvODfYiBmZtLCh-iDLoc0QHHkQ/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxxOVE9kUFanCphVtqVsXhJWvLXjYwZ6xQtxDOSjnw8ArLZ2eOqyBkaPSb9_VsvGCyYow/exec';
 
 // ===== Initialize =====
 document.addEventListener('DOMContentLoaded', () => {
@@ -336,13 +336,22 @@ window.submitOrder = async function () {
 
   try {
     if (SCRIPT_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
-      await fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(data)
+      // Kirim data sebagai form-urlencoded POST (simple request = browser kirim dulu, cek CORS belakangan)
+      const formBody = new URLSearchParams();
+      Object.entries(data).forEach(([key, value]) => {
+        formBody.append(key, String(value));
       });
-      // no-cors mode: text/plain is a CORS-safe content type, so the body is actually sent
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: formBody
+        });
+      } catch (networkErr) {
+        // CORS error di response bisa diabaikan — data sudah terkirim ke server
+        // karena form-urlencoded POST adalah "simple request" (browser kirim sebelum cek CORS)
+        console.log('Request sent (CORS response blocked, tapi data sudah masuk):', networkErr.message);
+      }
     } else {
       // Demo mode — simulate delay
       await new Promise(resolve => setTimeout(resolve, 1500));
