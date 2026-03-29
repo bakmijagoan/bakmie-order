@@ -47,9 +47,12 @@
  * SELESAI! ✅
  */
 
+// ===== Google Sheet ID (dari URL sheet kamu) =====
+var SHEET_ID = '1TneC3UulcyhnvzF---JxKm5Te0OUF5Wt6lZ9Ptqw-7Y';
+
 // ===== Cek status PO (buka/tutup) =====
 function getFormStatus() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.openById(SHEET_ID);
   var settingsSheet = ss.getSheetByName('Settings');
   
   // Kalau sheet Settings belum ada, default ON
@@ -79,23 +82,19 @@ function doPost(e) {
         .setMimeType(ContentService.MimeType.JSON);
     }
     
-    // Parse data dari frontend (support text/plain & application/json)
-    var data;
-    if (e.postData && e.postData.contents) {
-      data = JSON.parse(e.postData.contents);
-    } else if (e.parameter) {
-      // Fallback untuk form-encoded data
-      data = e.parameter;
-    } else {
-      throw new Error('No data received. postData: ' + JSON.stringify(e));
+    // Parse data dari form submission (e.parameter berisi field dari form)
+    var data = e.parameter;
+    
+    if (!data || !data.nama) {
+      throw new Error('No form data received. Event: ' + JSON.stringify(e));
     }
     
-    // Buka sheet pesanan
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheet = ss.getSheetByName('Pesanan Bakmie') || ss.getActiveSheet();
+    // Buka sheet pesanan (pakai ID langsung, bukan getActiveSpreadsheet)
+    var ss = SpreadsheetApp.openById(SHEET_ID);
+    var sheet = ss.getSheetByName('Pesanan Bakmie') || ss.getSheets()[0];
     
-    // Tambahkan baris baru dengan data pesanan
-    sheet.appendRow([
+    // Siapkan data array
+    var newRow = [
       new Date(),
       data.deskripsi || '-',
       data.nama,
@@ -107,9 +106,22 @@ function doPost(e) {
       data.toppingAyamCharsiu || '-',
       data.toppingBaksoSapi || '-',
       data.toppingKripikPangsit || '-',
-      data.total,
+      Number(data.total) || 0,
       data.statusBayar
-    ]);
+    ];
+    
+    // Cari "last row" yang sesungguhnya berdasarkan Kolom A (Timestamp)
+    // Supaya gak ketipu sama rumus yang di-drag di kolom lain
+    var columnA = sheet.getRange("A:A").getValues();
+    var lastRow = 0;
+    for (var i = 0; i < columnA.length; i++) {
+      if (columnA[i][0] !== "") {
+        lastRow = i + 1;
+      }
+    }
+    
+    // Insert array data tepat di bawah baris terakhir Kolom A
+    sheet.getRange(lastRow + 1, 1, 1, newRow.length).setValues([newRow]);
     
     // Return success response
     return ContentService
