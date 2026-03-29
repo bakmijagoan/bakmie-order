@@ -336,13 +336,13 @@ window.submitOrder = async function () {
 
   try {
     if (SCRIPT_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
-      const response = await fetch(SCRIPT_URL, {
+      await fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(data)
       });
-      // no-cors mode doesn't return readable response, so we just assume success
+      // no-cors mode: text/plain is a CORS-safe content type, so the body is actually sent
     } else {
       // Demo mode — simulate delay
       await new Promise(resolve => setTimeout(resolve, 1500));
