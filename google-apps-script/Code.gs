@@ -79,8 +79,16 @@ function doPost(e) {
         .setMimeType(ContentService.MimeType.JSON);
     }
     
-    // Parse data dari frontend
-    var data = JSON.parse(e.postData.contents);
+    // Parse data dari frontend (support text/plain & application/json)
+    var data;
+    if (e.postData && e.postData.contents) {
+      data = JSON.parse(e.postData.contents);
+    } else if (e.parameter) {
+      // Fallback untuk form-encoded data
+      data = e.parameter;
+    } else {
+      throw new Error('No data received. postData: ' + JSON.stringify(e));
+    }
     
     // Buka sheet pesanan
     var ss = SpreadsheetApp.getActiveSpreadsheet();
